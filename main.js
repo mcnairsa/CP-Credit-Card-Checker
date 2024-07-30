@@ -25,10 +25,67 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 
 // Add your functions below:
 
+// validate card number
 
+const validateCred = cardNbr => {
+// We can't hoist an arrow function - see '// Helper Functions' below
+  if (lhunTest(cardNbr)) { // Lhun algorithm function - returns true if card is good
+    return true;
+  } else 
+  return false;
+};
 
+// Is card issuer already on the naughty list?
 
+// Identify all invalid cards
 
+// Identify dodgy card companies
 
+// That's All, Folks!
 
+// Helper functions
 
+// Handle the Lhun Test algorithm
+
+const lhunTest = cardNbr => {
+  // Save the test digit for check after iterating through array
+  const checkDigit = cardNbr[cardNbr.length - 1];
+  let accumulator = 0;
+  let nbrToAdd = 0;
+//  console.log(`Card Number: ${cardNbr}`);
+//  console.log(`Card number length ${cardNbr.length}`);
+//  console.log(`Check digit: ${cardNbr[cardNbr.length - 1]}`)
+// Iterate
+  for (let cardNbrIndex = cardNbr.length - 2; cardNbrIndex >= 0; cardNbrIndex--) {
+//    console.log(`Card number position ${cardNbrIndex + 1}`)
+    if (cardNbrIndex % 2 === 0) { // Index modulo 2 = 0 (ie it's at an even index position)?
+//      console.log(`Number at this position: ${cardNbr[cardNbrIndex]}`)
+      nbrToAdd = cardNbr[cardNbrIndex] *= 2;   // Then double it
+//      console.log(`Accumulator: ${accumulator}`);
+//      console.log(`Number to add (may be %9'ed 1st): ${nbrToAdd}`);
+      nbrToAdd < 9 ? accumulator += nbrToAdd : accumulator += (nbrToAdd % 9); // %9 if > 9
+//      console.log(`Accumulator: ${accumulator}`);
+    } else { // Odd index position so add as is to accumulator
+//      console.log(`Accumulator: ${accumulator}`);
+//      console.log(`Number at this position: ${cardNbr[cardNbrIndex]}`)
+      accumulator += cardNbr[cardNbrIndex];
+//      console.log(`Accumulator: ${accumulator}`);
+    }
+  };
+    console.log(`Accumulator: ${accumulator}`);
+  // We have the 'Lhun value'
+// Now we test for corruption of the card number
+
+// Accumulator % 10 = 0?
+  // Card good
+// else
+  // reject card
+  accumulator += checkDigit;
+  // console.log(`Accumulator: ${accumulator}`);
+  const cardNbrCheck = accumulator % 10;
+  // console.log(`Card number check: ${cardNbrCheck}`);
+  return cardNbrCheck === 0;
+}
+
+    let cardNbr = valid1;
+    console.log(validateCred(cardNbr));
